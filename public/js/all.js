@@ -44368,5 +44368,44 @@ $provide.value("$locale", {
 })(window);
 
 !window.angular.$$csp().noInlineStyle && window.angular.element(document.head).prepend('<style type="text/css">@charset "UTF-8";[ng\\:cloak],[ng-cloak],[data-ng-cloak],[x-ng-cloak],.ng-cloak,.x-ng-cloak,.ng-hide:not(.ng-hide-animate){display:none !important;}ng\\:form{display:block;}.ng-animate-shim{visibility:hidden;}.ng-anchor{position:absolute;}</style>');
+(function () {
+  'use strict';
 
+  angular.module('todoApp', [])
+    .factory('todoInterceptor', todoInterceptor)
+    .config(function ($httpProvider) {
+      $httpProvider.interceptors.push('todoInterceptor');
+    });
+
+
+  function todoInterceptor(CSRF_TOKEN) {
+    return {
+      // optional method
+      request: function(config) {
+        // do something on success
+        config.headers['X-CSRF-TOKEN'] = CSRF_TOKEN;
+        return config;
+      },
+
+      // optional method
+      requestError: function(config) {
+        // do something on error
+        return config;
+      },
+
+      // optional method
+      response: function(res) {
+        // do something on success
+        return res;
+      },
+
+      // optional method
+      responseError: function(res) {
+        // do something on error
+        return res;
+      }
+    }
+  }
+
+})();
 //# sourceMappingURL=all.js.map
