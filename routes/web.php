@@ -15,6 +15,11 @@ Route::post('password/email', ['as' => 'auth.password.email', 'uses' => 'Auth\Fo
 Route::get('password/reset', ['as' => 'auth.password.reset', 'uses' => 'Auth\ForgotPasswordController@showLinkRequestForm']);
 Route::post('password/reset', ['as' => 'auth.password.reset', 'uses' => 'Auth\ResetPasswordController@reset']);
 
+/* Authentication routes */
+Route::group(['middleware' => 'auth'], function () {
+   Route::get('/projects', ['as' => 'projects.index', 'uses' => 'ProjectController@index']);
+});
+
 Route::get('/', function () {
     return view('welcome');
 });
