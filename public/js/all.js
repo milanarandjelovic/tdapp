@@ -44371,41 +44371,144 @@ $provide.value("$locale", {
 (function () {
   'use strict';
 
-  angular.module('todoApp', [])
+  angular.module('todo.app', ['back.module']);
+})();
+(function () {
+  'use strict';
+
+  angular.module('back.const', [])
+    .constant('backEndpoints', {
+      // Projects
+      PROJECTS_GET_ALL: '/api/projects'
+    });
+})();
+(function () {
+  'use strict';
+
+  angular.module('back.module', [
+    'interceptor.config',
+    'back.const',
+
+    'todo.app.projects'
+  ]);
+})();
+(function () {
+  'use strict';
+
+  angular.module('interceptor.config', [])
     .factory('todoInterceptor', todoInterceptor)
     .config(function ($httpProvider) {
       $httpProvider.interceptors.push('todoInterceptor');
     });
 
-
   function todoInterceptor(CSRF_TOKEN) {
     return {
       // optional method
-      request: function(config) {
+      request: function (config) {
         // do something on success
         config.headers['X-CSRF-TOKEN'] = CSRF_TOKEN;
         return config;
       },
 
       // optional method
-      requestError: function(config) {
+      requestError: function (config) {
         // do something on error
         return config;
       },
 
       // optional method
-      response: function(res) {
+      response: function (res) {
         // do something on success
         return res;
       },
 
       // optional method
-      responseError: function(res) {
+      responseError: function (res) {
         // do something on error
         return res;
       }
     }
   }
+})();
+(function () {
+  'use strict';
 
+  angular.module('todo.app.projects', []);
+})();
+(function () {
+  'use strict';
+
+  angular
+    .module('todo.app.projects')
+    .controller('ProjectsController', ProjectsController);
+
+  ProjectsController.$inject = ['projectsFactory'];
+  function ProjectsController(projectsFactory) {
+    var vm = this;
+    // vm.today = '';
+    // vm.current_time = '';
+    // vm.project_count = '';
+    // vm.projects = {};
+
+    activate();
+
+    ////////////////
+
+    function activate() {
+      getAllProjects();
+    }
+
+    /**
+     * Get all projects.
+     */
+    function getAllProjects() {
+      projectsFactory.getProjects()
+        .then(function (response) {
+          console.log(response);
+          vm.today = response.data.today;
+          vm.current_time = response.data.current_time;
+          vm.creator = response.data.creator;
+          vm.projects = response.data.projects;
+          vm.project_count = project_count(vm.projects);
+        });
+    }
+
+    /**
+     * If projects exists return true, else return false.
+     *
+     * @param data
+     * @returns {boolean}
+     */
+    function project_count(data) {
+      return data.length > 0;
+    }
+
+  }
+})();
+(function () {
+  'use strict';
+
+  angular
+    .module('todo.app.projects')
+    .factory('projectsFactory', projectsFactory);
+
+  projectsFactory.$inject = ['$http', 'backEndpoints'];
+  function projectsFactory($http, backEndpoints) {
+    var service = {
+      getProjects: getProjects
+    };
+
+    return service;
+
+    ////////////////
+
+    /**
+     * Returns all projects, today and current_time.
+     * @returns {HttpPromise}
+     */
+    function getProjects() {
+      return $http.get(backEndpoints.PROJECTS_GET_ALL);
+    }
+  }
 })();
 //# sourceMappingURL=all.js.map

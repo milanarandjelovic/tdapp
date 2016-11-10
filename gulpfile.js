@@ -15,8 +15,10 @@ elixir((mix) => {
   mix.sass([
     './node_modules/toastr/build/toastr.css',
     './node_modules/sweetalert/dist/sweetalert.css',
+    './node_modules/font-awesome/scss/font-awesome.scss',
     'app.scss'
   ])
+    .copy('./node_modules/font-awesome/fonts', 'public/fonts')
     .scripts([
       './node_modules/jquery/dist/jquery.js',
       './node_modules/bootstrap-sass/assets/javascripts/bootstrap.js',
