@@ -1,6 +1,8 @@
 @extends('layouts.app')
 
-<!-- Main Content -->
+@section('title', 'Reset')
+
+{{-- Main Content --}}
 @section('content')
 <div class="container">
     <div class="row">
