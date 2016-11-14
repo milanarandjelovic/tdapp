@@ -7,7 +7,8 @@
 
         <div class="row text-left">
             <div class="col-md-12">
-                <h2>Projects <span class="small pull-right">@{{ projectsCtrl.today }} | @{{ projectsCtrl.current_time }}</span></h2>
+                <h2>Projects <span class="small pull-right">@{{ projectsCtrl.today }}
+                        | @{{ projectsCtrl.current_time }}</span></h2>
 
             </div> {{-- /.col-md-12 --}}
         </div> {{-- /.row --}}
@@ -16,8 +17,8 @@
 
             <div class="col-md-12">
                 <div class="pull-right">
-                    <a class="btn btn-sm btn-success" ng-click="createNewProject()">
-                        <i class="fa fa-plus"></i>New Project
+                    <a class="btn btn-sm btn-success" ng-click="projectsCtrl.createProjectModalForm()">
+                        <i class="fa fa-plus new-project"></i>New Project
                     </a>
                 </div>
             </div> {{-- /.col-md-12 --}}
@@ -26,7 +27,7 @@
 
                 <div ng-if="projectsCtrl.project_count">
                     <div class="table-responsive">
-                        <table class="table table-striped table-bordered">
+                        <table class="table table-bordered">
                             <thead>
                             <tr class="text-capitalize">
                                 <th>Id</th>
@@ -40,18 +41,28 @@
                                 <th>Actions</th>
                             </tr>
                             </thead>
-                            {{-- TODO ADD NG-REPEAT --}}
                             <tbody ng-repeat="project in projectsCtrl.projects">
                             <tr>
                                 <td>@{{ project.id }}</td>
                                 <td>@{{ project.name }}</td>
-                                <td>@{{ creator.name }}</td>
+                                <td>@{{ projectsCtrl.creator.username }}</td>
                                 <td>@{{ project.tasks }}</td>
                                 <td>@{{ project.created_at }}</td>
                                 <td>@{{ project.updated_at }}</td>
                                 <td>@{{ project.duedate }}</td>
-                                <td>@{{ project.status }}</td>
-                                <td></td>
+                                <td>@{{ project.completed == 0 ? 'pedding' : 'completed' }}</td>
+                                <td>
+                                    <button class="btn btn-primary btn-sm"
+                                            ng-click="projectsCtrl.updateProjectModalForm(project.id)"
+                                    >
+                                        <i class="fa fa-pencil-square-o"></i>
+                                    </button>
+                                    <button class="btn btn-danger btn-sm"
+                                            ng-click="projectsCtrl.deleteProject(project.id)"
+                                    >
+                                        <i class="fa fa-trash"></i>
+                                    </button>
+                                </td>
                             </tr>
                             </tbody>
                         </table>
@@ -61,12 +72,13 @@
 
                 <div ng-if="!projectsCtrl.project_count">
                     <p>You have no project, begin by creating a
-                        <a ng-click="createNewProject()">new project</a>.
+                        <a ng-click="projectsCtrl.createProjectModalForm()">new project</a>.
                     </p>
                 </div>
 
             </div> {{-- /.col-md-12 --}}
         </div> {{-- /.row --}}
-
+        @include('projects.create-projects-modal')
+        @include('projects.update-projects-modal')
     </div> {{-- /.container --}}
 @endsection

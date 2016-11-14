@@ -24,6 +24,7 @@ elixir((mix) => {
       './node_modules/bootstrap-sass/assets/javascripts/bootstrap.js',
       './node_modules/toastr/build/toastr.min.js',
       './node_modules/sweetalert/dist/sweetalert.min.js',
+      'plugins/*.js',
       './node_modules/angular/angular.js',
       'app.js',
       'angular/**/*.js'

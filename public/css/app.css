@@ -15871,6 +15871,9 @@ a.list-group-item-danger.active:focus {
 .popover-title {
   border: none; }
 
+.project-holder .new-project {
+  padding-right: 5px; }
+
 .project-holder .project-table {
   margin-top: 40px; }
 

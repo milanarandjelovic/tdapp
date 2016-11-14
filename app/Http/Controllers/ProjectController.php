@@ -2,9 +2,12 @@
 
 namespace App\Http\Controllers;
 
+use App\Models\Project;
 use Auth;
 use Carbon\Carbon;
 use Illuminate\Http\Request;
+use Illuminate\Support\Str;
+use Validator;
 
 class ProjectController extends Controller
 {
@@ -36,24 +39,49 @@ class ProjectController extends Controller
     }
 
     /**
-     * Show the form for creating a new resource.
+     * Get project by id.
      *
-     * @return \Illuminate\Http\Response
+     * @param $id
+     * @return \Illuminate\Http\JsonResponse
      */
-    public function create()
+    public function getProject($id)
     {
-        //
+        $project = Project::all()->where('id', $id)->first();
+
+        return response()->json($project);
     }
 
     /**
      * Store a newly created resource in storage.
      *
-     * @param  \Illuminate\Http\Request $request
-     * @return \Illuminate\Http\Response
+     * @param Request $request
+     * @return \Illuminate\Http\JsonResponse
      */
     public function store(Request $request)
     {
-        //
+        $validator = Validator::make($request->all()[0], [
+            'name'        => 'required|min:3|max:50',
+            'description' => 'required|min:10|max:255',
+            'duedate'     => 'required',
+        ]);
+
+        if ($validator->fails()) {
+            return response()->json([
+                'errors' => $validator->errors(),
+            ]);
+        }
+
+        $slug = Str::slug($request->all()[0]['name']);
+        Auth::user()->projects()->create([
+            'name'        => $request->all()[0]['name'],
+            'slug'        => $slug,
+            'description' => $request->all()[0]['description'],
+            'duedate'     => $request->all()[0]['duedate'],
+        ]);
+
+        return response()->json([
+            'message' => 'Project has been successfully created.',
+        ]);
     }
 
     /**
@@ -81,23 +109,51 @@ class ProjectController extends Controller
     /**
      * Update the specified resource in storage.
      *
-     * @param  \Illuminate\Http\Request $request
-     * @param  int                      $id
-     * @return \Illuminate\Http\Response
+     * @param Request $request
+     * @param         $id
+     * @return \Illuminate\Http\JsonResponse
      */
     public function update(Request $request, $id)
     {
-        //
+        $validator = Validator::make($request->all()[0], [
+            'name'        => 'required|min:3|max:50',
+            'description' => 'required|min:10|max:255',
+            'duedate'     => 'required',
+        ]);
+
+        if ($validator->fails()) {
+            return response()->json([
+                'errors' => $validator->errors(),
+            ]);
+        }
+
+        $slug = Str::slug($request->all()[0]['name']);
+        Auth::user()->projects()->update([
+            'name'        => $request->all()[0]['name'],
+            'slug'        => $slug,
+            'description' => $request->all()[0]['description'],
+            'duedate'     => $request->all()[0]['duedate'],
+        ]);
+
+        return response()->json([
+            'message' => 'Project has been successfully updated.',
+        ]);
     }
+
 
     /**
      * Remove the specified resource from storage.
      *
-     * @param  int $id
-     * @return \Illuminate\Http\Response
+     * @param $id
+     * @return \Illuminate\Http\JsonResponse
      */
     public function destroy($id)
     {
-        //
+        $project = Project::all()->where('id', $id)->first();
+        $project->delete();
+
+        return response()->json([
+            'message' => 'Project has been successfully deleted.',
+        ]);
     }
 }
