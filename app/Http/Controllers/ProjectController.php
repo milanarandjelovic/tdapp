@@ -5,6 +5,7 @@ namespace App\Http\Controllers;
 use App\Models\Project;
 use Auth;
 use Carbon\Carbon;
+use DateTime;
 use Illuminate\Http\Request;
 use Illuminate\Support\Str;
 use Validator;
@@ -115,12 +116,13 @@ class ProjectController extends Controller
      */
     public function update(Request $request, $id)
     {
+
         $validator = Validator::make($request->all()[0], [
             'name'        => 'required|min:3|max:50',
             'description' => 'required|min:10|max:255',
             'duedate'     => 'required',
         ]);
-
+//        dd(date_format(new DateTime($request->all()[0]['duedate']), 'Y-m-d'));
         if ($validator->fails()) {
             return response()->json([
                 'errors' => $validator->errors(),
@@ -128,11 +130,11 @@ class ProjectController extends Controller
         }
 
         $slug = Str::slug($request->all()[0]['name']);
-        Auth::user()->projects()->update([
+        Auth::user()->projects()->where('id', $id)->update([
             'name'        => $request->all()[0]['name'],
             'slug'        => $slug,
             'description' => $request->all()[0]['description'],
-            'duedate'     => $request->all()[0]['duedate'],
+            'duedate'     => date_format(new DateTime($request->all()[0]['duedate']), 'Y-m-d'),
         ]);
 
         return response()->json([

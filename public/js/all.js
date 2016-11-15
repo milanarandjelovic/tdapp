@@ -44560,10 +44560,10 @@ $provide.value("$locale", {
 
       projectsFactory.getProject(id)
         .then(function (response) {
-          console.log(response);
+          console.log(response.data.duedate);
           vm.createForm.name = response.data.name;
           vm.createForm.description = response.data.description;
-          vm.createForm.duedate = response.data.duedate;
+          vm.createForm.duedate = new Date(response.data.duedate);
           vm.update_project_id = response.data.id;
         });
     }

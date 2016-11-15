@@ -37,7 +37,7 @@
                         <div class="col-md-10">
                             <input type="date" class="form-control" name="duedate" id="duedate"
                                    ng-model="projectsCtrl.createForm.duedate"
-                                   value="projectsCtrl.createForm.duedate"
+                                   ng-bind="projectsCtrl.createForm.duedate"
                             >
                             <div ng-if="projectsCtrl.createFormErrors.duedate">
                                 <span class="text-danger">@{{ projectsCtrl.createFormErrors.duedate[0] }}</span>
