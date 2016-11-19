@@ -114,7 +114,6 @@
 
       projectsFactory.getProject(id)
         .then(function (response) {
-          console.log(response.data.duedate);
           vm.createForm.name = response.data.name;
           vm.createForm.description = response.data.description;
           vm.createForm.duedate = new Date(response.data.duedate);
@@ -130,7 +129,6 @@
     function updateProject(id) {
       projectsFactory.updateProject(id, vm.createForm)
         .then(function (response) {
-          console.log(response);
           if (response.data.message) {
             toastr.success(response.data.message, 'Success');
             getAllProjects();
