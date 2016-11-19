@@ -6,6 +6,9 @@
       // Date and Time
       GET_DATE_AND_TIME: '/api/getDateAntTime',
 
+      // Creator
+      GET_CREATOR: '/api/getCreator',
+
       // Projects
       PROJECTS_GET_ALL: '/api/projects',
       PROJECTS_GET_BY_SLUG: '/api/project/',

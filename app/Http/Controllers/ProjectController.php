@@ -2,13 +2,13 @@
 
 namespace App\Http\Controllers;
 
-use App\Models\Project;
 use Auth;
-use Carbon\Carbon;
 use DateTime;
-use Illuminate\Http\Request;
-use Illuminate\Support\Str;
 use Validator;
+use Carbon\Carbon;
+use App\Models\Project;
+use Illuminate\Support\Str;
+use Illuminate\Http\Request;
 
 class ProjectController extends Controller
 {
@@ -23,17 +23,47 @@ class ProjectController extends Controller
         return view('projects.index');
     }
 
+    /**
+     * Get current date and time.
+     *
+     * @return \Illuminate\Http\JsonResponse
+     */
+    public function getDateAndTime()
+    {
+        $current_time = Carbon::now()->format('h:i a');
+        $today = Carbon::now()->formatLocalized('%a %d %b %y');
+
+        return response()->json([
+            'current_time' => $current_time,
+            'today'        => $today,
+        ]);
+    }
+
+    /**
+     * Return creator.
+     *
+     * @return \Illuminate\Http\JsonResponse
+     */
+    public function getCreator()
+    {
+        $creator = Auth::user();
+
+        return response()->json([
+            'creator' => $creator,
+        ]);
+    }
+
+    /**
+     * Get all project.
+     *
+     * @return \Illuminate\Http\JsonResponse
+     */
     public function projectsDetails()
     {
         $creator = Auth::user();
         $projects = $creator->projects()->orderBy('created_at')->get();
-        $current_time = Carbon::now()->format('h:i a');
-        $today = Carbon::now()->formatLocalized('%a %d %b %y');
         $data = [
-            'creator'      => $creator,
-            'projects'     => $projects,
-            'current_time' => $current_time,
-            'today'        => $today,
+            'projects' => $projects,
         ];
 
         return response()->json($data);
@@ -85,26 +115,19 @@ class ProjectController extends Controller
         ]);
     }
 
-    /**
-     * Display the specified resource.
-     *
-     * @param  int $id
-     * @return \Illuminate\Http\Response
-     */
-    public function show($id)
-    {
-        //
-    }
 
     /**
-     * Show the form for editing the specified resource.
+     *  Display the specified resource.
      *
-     * @param  int $id
-     * @return \Illuminate\Http\Response
+     * @param $slug
+     * @return \Illuminate\Contracts\View\Factory|\Illuminate\View\View
      */
-    public function edit($id)
+    public function show($slug)
     {
-        //
+        $project = Project::all()->where('slug', $slug)->first();
+
+        return view('tasks.index')
+            ->with('project', $project);
     }
 
     /**
@@ -122,7 +145,7 @@ class ProjectController extends Controller
             'description' => 'required|min:10|max:255',
             'duedate'     => 'required',
         ]);
-//        dd(date_format(new DateTime($request->all()[0]['duedate']), 'Y-m-d'));
+
         if ($validator->fails()) {
             return response()->json([
                 'errors' => $validator->errors(),

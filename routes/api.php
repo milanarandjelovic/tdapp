@@ -1,6 +1,12 @@
 <?php
 
 Route::group(['middleware' => 'auth:api'], function () {
+    /* Date and Time routes */
+    Route::get('/getDateAntTime', ['as' => 'getDateAndTime', 'uses' => 'ProjectController@getDateAndTime']);
+
+    /* Creator routes */
+    Route::get('/getCreator', ['as' => 'getCreator', 'uses' => 'ProjectController@getCreator']);
+
     /* Projects routes */
     Route::get('/projects', ['as' => 'projects.projectDetails', 'uses' => 'ProjectController@projectsDetails']);
     Route::get('/project/{id}', ['as' => 'projects.projectDetails', 'uses' => 'ProjectController@getProject']);
