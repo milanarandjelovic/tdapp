@@ -5,6 +5,8 @@
     'interceptor.config',
     'back.const',
 
-    'todo.app.projects'
+    'todo.app.dateAntTime',
+    'todo.app.projects',
+    'todo.app.tasks'
   ]);
 })();

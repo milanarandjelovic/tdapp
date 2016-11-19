@@ -35,7 +35,7 @@
      * @returns {HttpPromise}
      */
     function getProject(id) {
-      return $http.get(backEndpoints.PROJECTS_GET_BY_ID + id, [id]);
+      return $http.get(backEndpoints.PROJECTS_GET_BY_SLUG + id, [id]);
     }
 
     /**

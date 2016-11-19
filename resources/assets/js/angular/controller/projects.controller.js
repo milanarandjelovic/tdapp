@@ -5,15 +5,17 @@
     .module('todo.app.projects')
     .controller('ProjectsController', ProjectsController);
 
-  ProjectsController.$inject = ['projectsFactory'];
-  function ProjectsController(projectsFactory) {
+  ProjectsController.$inject = ['projectsFactory', 'timeFactory'];
+  function ProjectsController(projectsFactory, timeFactory) {
     var vm = this;
 
     vm.createProjectModalForm = createProjectModalForm;
     vm.updateProjectModalForm = updateProjectModalForm;
+    vm.getDateAntTime = getDateAntTime;
     vm.createProject = createProject;
     vm.updateProject = updateProject;
     vm.deleteProject = deleteProject;
+    vm.getProject = getProject;
     vm.createForm = {
       name: '',
       description: '',
@@ -27,6 +29,18 @@
 
     function activate() {
       getAllProjects();
+      getDateAntTime();
+    }
+
+    /**
+     * Get current date and time.
+     */
+    function getDateAntTime() {
+      timeFactory.getTimeAndDate()
+        .then(function (response) {
+          vm.today = response.data.today;
+          vm.current_time = response.data.current_time;
+        });
     }
 
     /**
@@ -35,8 +49,6 @@
     function getAllProjects() {
       projectsFactory.getProjects()
         .then(function (response) {
-          vm.today = response.data.today;
-          vm.current_time = response.data.current_time;
           vm.creator = response.data.creator;
           vm.projects = response.data.projects;
           vm.project_count = project_count(vm.projects);
@@ -141,6 +153,18 @@
         .then(function (response) {
           toastr.success(response.data.message, 'Success');
           getAllProjects();
+        });
+    }
+
+    /**
+     * Get project by slug.
+     *
+     * @param slug
+     */
+    function getProject(slug) {
+      projectsFactory.getProject(slug)
+        .then(function (response) {
+          vm.project = response.data;
         });
     }
 
