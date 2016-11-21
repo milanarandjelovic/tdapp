@@ -69,13 +69,13 @@
                                 <td>
                                     <button class="btn btn-primary btn-sm"
                                             data-toggle="tooltip" data-placement="top" title="Edit"
-                                            ng-click="projectsCtrl.updateProjectModalForm(project.id)"
+                                            ng-click="projectsCtrl.updateProjectModalForm(project.slug)"
                                     >
                                         <i class="fa fa-pencil-square-o"></i>
                                     </button>
                                     <button class="btn btn-danger btn-sm"
                                             data-toggle="tooltip" data-placement="top" title="Delete"
-                                            ng-click="projectsCtrl.deleteProject(project.id)"
+                                            ng-click="projectsCtrl.deleteProject(project.slug)"
                                     >
                                         <i class="fa fa-trash"></i>
                                     </button>

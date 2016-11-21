@@ -102,17 +102,16 @@
         });
     }
 
-
     /**
      * Show modal for update project.
      *
-     * @param id
+     * @param slug
      */
-    function updateProjectModalForm(id) {
+    function updateProjectModalForm(slug) {
       // Open modal
       $('#update-projects-modal').modal('show');
 
-      projectsFactory.getProject(id)
+      projectsFactory.getProject(slug)
         .then(function (response) {
           vm.createForm.name = response.data.name;
           vm.createForm.description = response.data.description;
