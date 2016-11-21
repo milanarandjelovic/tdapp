@@ -26,7 +26,13 @@ elixir((mix) => {
       './node_modules/sweetalert/dist/sweetalert.min.js',
       'plugins/*.js',
       './node_modules/angular/angular.js',
+      './node_modules/angular-timeago/dist/angular-timeago.js',
+      'angular/interceptor.config.js',
+      'angular/back.constant.js',
+      'angular/back.module.js',
       'app.js',
-      'angular/**/*.js'
+      'angular/module/*.js',
+      'angular/factory/*.js',
+      'angular/controller/*.js'
     ]);
 });

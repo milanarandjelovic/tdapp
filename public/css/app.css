@@ -15871,10 +15871,19 @@ a.list-group-item-danger.active:focus {
 .popover-title {
   border: none; }
 
+.btn {
+  border-radius: 3px; }
+
 .project-holder .new-project {
   padding-right: 5px; }
 
 .project-holder .project-table {
+  margin-top: 40px; }
+
+.task-holder .new-task {
+  padding-right: 5px; }
+
+.task-holder .task-table {
   margin-top: 40px; }
 
 /*# sourceMappingURL=app.css.map */
