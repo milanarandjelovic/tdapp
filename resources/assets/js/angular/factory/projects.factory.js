@@ -20,7 +20,7 @@
     ////////////////
 
     /**
-     * Returns all projects, today and current_time.
+     * Returns all projects.
      *
      * @returns {HttpPromise}
      */
@@ -29,13 +29,13 @@
     }
 
     /**
-     * Return project by id.
+     * Return project by slug.
      *
-     * @param id
+     * @param slug
      * @returns {HttpPromise}
      */
-    function getProject(id) {
-      return $http.get(backEndpoints.PROJECTS_GET_BY_SLUG + id, [id]);
+    function getProject(slug) {
+      return $http.get(backEndpoints.PROJECTS_GET_BY_SLUG + slug, [slug]);
     }
 
     /**

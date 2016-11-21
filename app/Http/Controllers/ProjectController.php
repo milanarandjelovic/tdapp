@@ -70,14 +70,14 @@ class ProjectController extends Controller
     }
 
     /**
-     * Get project by id.
+     * Get project by slug.
      *
-     * @param $id
+     * @param $slug
      * @return \Illuminate\Http\JsonResponse
      */
-    public function getProject($id)
+    public function getProject($slug)
     {
-        $project = Project::all()->where('id', $id)->first();
+        $project = Project::all()->where('slug', $slug)->first();
 
         return response()->json($project);
     }

@@ -15,7 +15,7 @@
     vm.createProject = createProject;
     vm.updateProject = updateProject;
     vm.deleteProject = deleteProject;
-    vm.getProject = getProject;
+    vm.getProjectBySlug = getProjectBySlug;
     vm.createForm = {
       name: '',
       description: '',
@@ -159,7 +159,7 @@
      *
      * @param slug
      */
-    function getProject(slug) {
+    function getProjectBySlug(slug) {
       projectsFactory.getProject(slug)
         .then(function (response) {
           vm.project = response.data;

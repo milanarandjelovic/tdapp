@@ -16,6 +16,16 @@
             </div> {{-- /.col-md-12 --}}
         </div> {{-- /.row --}}
 
+        <div class="row text-left">
+            <div class="col-md-12">
+                <ol class="breadcrumb">
+                    <li>
+                        <a href="{{ url('/projects') }}">Projects</a>
+                    </li>
+                </ol>
+            </div> {{-- /.col-md-12 --}}
+        </div> {{-- /.row --}}
+
         <div class="row">
 
             <div class="col-md-12">
